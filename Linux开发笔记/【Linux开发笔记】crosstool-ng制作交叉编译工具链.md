@@ -8,7 +8,7 @@ crosstool-ng官网地址：[https://crosstool-ng.github.io/](https://crosstool-n
 下载地址：[https://crosstool-ng.github.io/download/](https://crosstool-ng.github.io/download/)
 
 ## 1.3 解压
-```powershell
+```shell
 tar -xvf crosstool-ng-1.25.0.tar.xz
 ```
 
@@ -17,14 +17,14 @@ tar -xvf crosstool-ng-1.25.0.tar.xz
 进入解压后的crosstool-ng目录中，
 
 如果需要指定crosstool-ng的安装路径以及修改其他的编译参数，可以先执行查看configure的一些参数配置。
-```powershell
+```shell
 ./configure --help
 ```
 linux中编译各种开源库和工具有一些比较通用的方法，我在[【Linux开发笔记】Linux编译第三方库通用方法](https://blog.csdn.net/qq_37354286/article/details/102932316)文章中也有提到过。
 
 我这里选择默认的配置，直接执行configure。
 
-```powershell
+```shell
 ./configure
 ```
 
@@ -43,15 +43,15 @@ linux中编译各种开源库和工具有一些比较通用的方法，我在[�
 
 ### 1.4.3 编译/安装
 1.编译
-```powershell
+```shell
 make
 ```
 2.安装
-```powershell
+```shell
 sudo make install
 ```
 执行
-```powershell
+```shell
 ct-ng -v
 ```
 正常显示版本信息，则安装成功。
@@ -80,7 +80,7 @@ ct-ng -v
 
 ## 2.2 交叉编译配置
 在arm-linux目录下执行
-```powershell
+```shell
 ct-ng menuconfig
 ```
 终端中出现crosstool-ng的配置菜单，如下图所示：
@@ -95,7 +95,7 @@ ct-ng menuconfig
 |Prefix directory|设置为工具链安装目录绝对路径|
 
 注意：Prefix directory设置为工具链安装目录绝对路径，但是该路径不能和.config为同一个目录，我之前就是配置了工具链安装目录和.config为同一目录，结果在执行编译的时候，总是会报下面的错误，花费了不少时间在上面。
-```powershell
+```shell
 [00:03] / bzip2: Can't open input file .config: No such file or directory.
 [ERROR]  
 [ERROR]  >>
@@ -148,35 +148,35 @@ ct-ng menuconfig
 
 ## 2.3 构建工具链
 在arm-linux目录（即.config所在目录）下执行
-```powershell
+```shell
 ct-ng build
 ```
 crosstool-ng开始构建工具链，如果遇到以下报错：
-```powershell
+```shell
 [EXTRA]    Retrieving 'xxx-x.x.xx'
 [ERROR]    xxx: download failed
 ```
 比如我遇到的zlib：
-```powershell
+```shell
 [EXTRA]    Retrieving 'zlib-1.2.12'
 [ERROR]    zlib: download failed
 ```
 手动下载该依赖项的源码并放到src目录下。
 
 将手动下载的依赖项源码包在放置了在src中之后，再次执行
-```powershell
+```shell
 ct-ng build
 ```
 如果出现了以下错误：
-```powershell
-make: “build” is up to date
+```shell
+make: "build" is up to date
 ```
 执行一下
-```powershell
+```shell
 touch .config
 ```
 该命令用于更新一下.config文件的时间戳，然后再次执行
-```powershell
+```shell
 ct-ng build
 ```
 等待编译完成就大功告成了，硬件性能和工具链编译配置的不同花费的时间也不一样，我这边大概花费一个小时，进入arm-unknown-linux-gnueabi目录可以看到制作好的工具链。
